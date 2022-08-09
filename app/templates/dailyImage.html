@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block title %}Space Exploration Portal{% endblock %}
+
+{% block content %}
+  <h1 class="display-4 text-center">{{ daily_image["title"] }}</h1>
+
+  <img src="{{ daily_image["url"] }}" id="image">
+  
+  <div>
+    <div style="width: 100px; height: 100px; overflow: hidden">
+      <img src="{{ daily_image["url"] }}" id="target_image" style="left: -200px; top: -200px; position: relative;">
+    </div>
+    
+    <p class="lead">{{ daily_image["explanation"] }}</p>
+  </div>
+
+  <a class="btn btn-info" href="/dailyImage/random">Random Image</a>
+
+  <!-- <form method="POST" action="/">
+  </form> -->
+
+{% endblock %}

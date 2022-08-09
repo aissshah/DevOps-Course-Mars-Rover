@@ -21,5 +21,63 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('click', handleClick)
+        setUpTarget()
+      })
+
+      target = {
+        x_min: 0,
+        x_max: 0,
+        y_min: 0,
+        y_max: 0
+      }
+
+      function setUpTarget() {
+        let boundingRect = document.getElementById('image').getBoundingClientRect()
+
+        image_width = boundingRect.right - boundingRect.left
+        image_height = boundingRect.bottom - boundingRect.top
+
+        left = Math.random() * (image_width - 100)
+        top_value = Math.random() * (image_height - 100)
+
+        document.getElementById('target_image').style['left'] = `-${left}px`
+        document.getElementById('target_image').style['top'] = `-${top_value}px`
+
+        target = {
+          x_min: left,
+          x_max: left + 100,
+          y_min: top_value,
+          y_max: top_value + 100
+        }
+      }
+
+      function handleClick(e) {
+        let boundingRect = document.getElementById('image').getBoundingClientRect()
+
+        in_image_coords = click_to_image_coords(e.clientX, e.clientY, boundingRect.left, boundingRect.top)
+
+        click_x_image_coords = in_image_coords[0]
+        click_y_image_coords = in_image_coords[1]
+
+        console.log('click in image', click_x_image_coords, click_y_image_coords)
+        image_width = boundingRect.right - boundingRect.left
+        image_height = boundingRect.bottom - boundingRect.top
+        console.log('image dimensions', image_width, image_height)
+
+        console.log(target)
+
+        if (target.x_min < click_x_image_coords && click_x_image_coords < target.x_max && target.y_min < click_y_image_coords && click_y_image_coords < target.y_max) {
+          alert('Congratulations, you spotted a random bit of space in outer space!')
+        }
+      }
+
+      function click_to_image_coords(x, y, image_x, image_y) {
+        return [x - image_x, y - image_y]
+      }
+    </script>
   </body>
 </html>
